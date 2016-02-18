@@ -27,7 +27,8 @@ if [ ! -d toolchain/ ]; then
 fi
 
 if [ $1 == 'poco' ]; then
-    ./configure --config=Android --no-samples --no-tests
+    #./configure --config=Android --no-samples --no-tests
+    ./configure --config=Android_static --no-samples --no-tests
 elif [ $1 == 'curl' ]; then
     ./configure --prefix=$CMAKE_PREFIX_PATH --disable-shared --enable-static --without-ssl --host=arm-linux-androideabi --disable-tftp --disable-sspi --disable-ipv6 --disable-ldaps --disable-ldap --disable-telnet --disable-pop3 --disable-ftp --disable-imap --disable-smtp --disable-pop3 --disable-rtsp --disable-ares --without-ca-bundle --disable-warnings --disable-manual --without-nss --without-random
 else
@@ -35,7 +36,8 @@ else
 fi
 
 export PATH=$PATH:$2/toolchain/bin
-make -s -j8
+#make -s -j8
+make -j$(nproc)
 
 if [ $1 == 'poco' ]; then
     mkdir -p $CMAKE_PREFIX_PATH/lib

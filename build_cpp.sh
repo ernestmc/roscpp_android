@@ -53,4 +53,4 @@ echo
 echo -e '\e[34mInstalling.\e[39m'
 echo
 
-cd build && make --silent install
+cd build && make -j$(nproc)  --silent install
