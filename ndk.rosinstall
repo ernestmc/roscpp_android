@@ -814,3 +814,40 @@
     local-name: xacro
     uri: https://github.com/ros-gbp/xacro-release/archive/release/indigo/xacro/1.9.4-0.tar.gz
     version: xacro-release-release-indigo-xacro-1.9.4-0
+
+#- tar:
+#    local-name: geometry2/tf2
+#    uri: https://github.com/ros-gbp/geometry2-release/archive/release/indigo/tf2/0.5.13-0.tar.gz
+#    version: geometry2-release-release-indigo-tf2-0.5.13-0
+#- tar:
+#    local-name: geometry2/tf2_msgs
+#    uri: https://github.com/ros-gbp/geometry2-release/archive/release/indigo/tf2_msgs/0.5.13-0.tar.gz
+#    version: geometry2-release-release-indigo-tf2_msgs-0.5.13-0
+#- tar:
+#    local-name: geometry2/tf2_py
+#    uri: https://github.com/ros-gbp/geometry2-release/archive/release/indigo/tf2_py/0.5.13-0.tar.gz
+#    version: geometry2-release-release-indigo-tf2_py-0.5.13-0
+#- tar:
+#    local-name: geometry2/tf2_ros
+#    uri: https://github.com/ros-gbp/geometry2-release/archive/release/indigo/tf2_ros/0.5.13-0.tar.gz
+#    version: geometry2-release-release-indigo-tf2_ros-0.5.13-0
+- tar:
+    local-name: mavlink
+    uri: https://github.com/mavlink/mavlink-gbp-release/archive/release/indigo/mavlink/2016.5.20-0.tar.gz
+    version: mavlink-gbp-release-release-indigo-mavlink-2016.5.20-0
+- tar:
+    local-name: mavros/libmavconn
+    uri: https://github.com/mavlink/mavros-release/archive/release/indigo/libmavconn/0.17.3-0.tar.gz
+    version: mavros-release-release-indigo-libmavconn-0.17.3-0
+- tar:
+    local-name: mavros/mavros
+    uri: https://github.com/mavlink/mavros-release/archive/release/indigo/mavros/0.17.3-0.tar.gz
+    version: mavros-release-release-indigo-mavros-0.17.3-0
+- tar:
+    local-name: mavros/mavros_msgs
+    uri: https://github.com/mavlink/mavros-release/archive/release/indigo/mavros_msgs/0.17.3-0.tar.gz
+    version: mavros-release-release-indigo-mavros_msgs-0.17.3-0
+- tar:
+    local-name: orocos_kinematics_dynamics/orocos_kdl
+    uri: https://github.com/smits/orocos-kdl-release/archive/release/indigo/orocos_kdl/1.3.1-0.tar.gz
+    version: orocos-kdl-release-release-indigo-orocos_kdl-1.3.1-0
