@@ -9,11 +9,11 @@ RUN wget https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -O - | s
 RUN apt-get update && apt-get install --no-install-recommends -y ros-indigo-ros-base python-wstool
 
 # Install Android NDK
-RUN wget http://dl.google.com/android/ndk/android-ndk-r8e-linux-x86_64.tar.bz2
-RUN tar -jxvf android-ndk-r8e-linux-x86_64.tar.bz2 -C /opt
+RUN wget http://dl.google.com/android/repository/android-ndk-r11c-linux-x86_64.zip
+RUN unzip android-ndk-r11c-linux-x86_64.zip -d /opt
 
 # Set-up environment
-ENV ANDROID_NDK /opt/android-ndk-r8e
+ENV ANDROID_NDK /opt/android-ndk-r11c
 
 # Install g++ to avoid "CMAKE_CXX_COMPILER-NOTFOUND was not found." error
 RUN apt-get update && apt-get install -y g++ cmake make
