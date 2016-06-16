@@ -26,7 +26,8 @@ elif [ $1 == 'bfl' ]; then
     URL=https://github.com/ros-gbp/bfl-release/archive/release/indigo/bfl/0.7.0-6.tar.gz
     COMP='gz'
 elif [ $1 == 'boost' ]; then
-    URL=https://github.com/algron/Boost-for-Android.git
+    #URL=https://github.com/algron/Boost-for-Android.git
+    URL=https://github.com/moritz-wundke/Boost-for-Android.git
     COMP='git'
 elif [ $1 == 'bzip2' ]; then
     URL=https://github.com/osrf/bzip2_cmake.git
@@ -120,6 +121,7 @@ elif [ $COMP == 'git' ];then
 fi
 
 if [ $1 == 'boost' ]; then
+    apply_patch /opt/roscpp_android/patches/boost.patch
     cd $prefix/boost
     ./build-android.sh $ANDROID_NDK --boost=1.53.0
 elif [ $1 == 'urdfdom' ] || [ $1 == 'console_bridge' ]; then
