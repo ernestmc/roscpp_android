@@ -10,7 +10,7 @@ die() {
 download() {
     if [ ! -z $1 ]; then
         cmd_exists curl && curl -L $1 -O || wget $1
-    else 
+    else
         echo "skipping download of $1 as it's already local"
     fi
 }
@@ -54,7 +54,7 @@ cmake_build() {
     cmake .. -DCMAKE_TOOLCHAIN_FILE=$RBA_TOOLCHAIN \
         -DANDROID_TOOLCHAIN_NAME=$toolchain -DANDROID_NATIVE_API_LEVEL=$platform $host64 \
         -DPYTHON_EXECUTABLE=$python -DCMAKE_INSTALL_PREFIX=$target -DBUILD_SHARED_LIBS=0 -DPCL_SHARED_LIBS=FALSE
-    make -j$PARALLEL_JOBS -l$PARALLEL_JOBS install
+    make --debug=v -j$PARALLEL_JOBS -l$PARALLEL_JOBS install
 }
 
 # Check if patch hasn't already applied and apply it

@@ -1,5 +1,8 @@
 #!/bin/bash
 
+env
+ls /opt
+
 # Abort script on any failures
 set -e
 
@@ -25,7 +28,7 @@ help=0
 
 # verbose is a bool flag indicating if we want more verbose output in
 # the build process. Useful for debugging build system or compiler errors.
-verbose=0
+verbose=1
 
 
 if [[ $# -lt 1 ]] ; then
@@ -88,7 +91,7 @@ if [ -z $ROS_DISTRO ] ; then
     die "HOST ROS ENVIRONMENT NOT FOUND! Did you source /opt/ros/indigo/setup.bash"
 fi
 
-[ -d $standalone_toolchain_path ] || run_cmd setup_standalone_toolchain
+#[ -d $standalone_toolchain_path ] || run_cmd setup_standalone_toolchain
 
 echo
 echo -e '\e[34mGetting library dependencies.\e[39m'
