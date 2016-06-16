@@ -76,13 +76,13 @@ echo
 cmd_exists docker || die 'docker was not found'
 
 echo -e '\e[34mPulling base docker image.\e[39m'
-sudo docker pull ekumenlabs/rosndk
+#sudo docker pull ekumenlabs/rosndk
 
 
 if [[ $standard -eq 1 ]]; then
   echo -e '\e[34mSetting output_path to: '$output_path'.\e[39m'
   echo
-  sudo docker run --rm=true -t -v $my_loc:/opt/roscpp_android -v $output_path:/opt/roscpp_output -i ekumenlabs/rosndk /opt/roscpp_android/do_everything.sh /opt/roscpp_output
+  sudo docker run -e "ANDROID_NDK=/opt/android-ndk-r10e" --rm=true -t -v $my_loc:/opt/roscpp_android -v $output_path:/opt/roscpp_output -i ekumenlabs/rosndk:test /opt/roscpp_android/do_everything.sh /opt/roscpp_output
   exit $?
 fi
 
