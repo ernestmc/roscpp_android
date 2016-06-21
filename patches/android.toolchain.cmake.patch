@@ -1,6 +1,52 @@
---- android.toolchain.cmake
-+++ android.toolchain.cmake
-@@ -1322,7 +1322,6 @@ set( ANDROID_RELRO                  ${ANDROID_RELRO}                  CACHE BOOL
+--- android.toolchain.cmake	2016-06-21 14:45:13.567110580 -0300
++++ android.toolchain.cmake	2016-06-21 14:03:26.875036218 -0300
+@@ -154,6 +154,7 @@
+ #                          Implies -frtti -fno-exceptions.
+ #                          Available for NDK r7b and newer.
+ #                          Silently degrades to gnustl_static if not available.
++#        libc++_shared  -> llvm-libc++ shared library
+ #
+ #    ANDROID_STL_FORCE_FEATURES=ON - turn rtti and exceptions support based on
+ #      chosen runtime. If disabled, then the user is responsible for settings
+@@ -833,7 +834,7 @@
+ mark_as_advanced( ANDROID_STL ANDROID_STL_FORCE_FEATURES )
+ 
+ if( BUILD_WITH_ANDROID_NDK )
+- if( NOT "${ANDROID_STL}" MATCHES "^(none|system|system_re|gabi\\+\\+_static|gabi\\+\\+_shared|stlport_static|stlport_shared|gnustl_static|gnustl_shared)$")
++ if( NOT "${ANDROID_STL}" MATCHES "^(none|system|system_re|gabi\\+\\+_static|gabi\\+\\+_shared|stlport_static|stlport_shared|gnustl_static|gnustl_shared|libc\\+\\+_shared)$")
+   message( FATAL_ERROR "ANDROID_STL is set to invalid value \"${ANDROID_STL}\".
+ The possible values are:
+   none           -> Do not configure the runtime.
+@@ -1026,6 +1027,20 @@
+   else()
+    set( __libstl                "${__libstl}/libs/${ANDROID_NDK_ABI_NAME}/libstdc++.a" )
+   endif()
++ elseif( ANDROID_STL STREQUAL "libc++_shared" )
++  if( NOT ANDROID_NDK_RELEASE_NUM LESS 8004 ) # before r8d
++   set( ANDROID_EXCEPTIONS       ON )
++  else()
++   set( ANDROID_EXCEPTIONS       OFF )
++  endif()
++  if( ANDROID_NDK_RELEASE_NUM LESS 7000 ) # before r7
++   set( ANDROID_RTTI            OFF )
++  else()
++   set( ANDROID_RTTI            ON )
++  endif()
++  set( ANDROID_STL_INCLUDE_DIRS "${ANDROID_NDK}/sources/android/support/include" )
++  list( APPEND ANDROID_STL_INCLUDE_DIRS "${ANDROID_NDK}/sources/cxx-stl/llvm-libc++/libcxx/include" )
++  set( __libstl                 "${ANDROID_NDK}/sources/cxx-stl/llvm-libc++/libs/${ANDROID_NDK_ABI_NAME}/libc++_shared.so" )
+  else()
+   message( FATAL_ERROR "Unknown runtime: ${ANDROID_STL}" )
+  endif()
+@@ -1052,6 +1067,7 @@
+    message( ERROR "Could not find libsupc++.a for a chosen platform. Either your NDK is not supported or is broken.")
+   endif()
+  endif()
++ 
+ endif()
+ 
+ 
+@@ -1322,7 +1338,6 @@
  mark_as_advanced( ANDROID_NO_UNDEFINED ANDROID_SO_UNDEFINED ANDROID_FUNCTION_LEVEL_LINKING ANDROID_GOLD_LINKER ANDROID_NOEXECSTACK ANDROID_RELRO )
  
  # linker flags
@@ -8,3 +54,10 @@
  
  if( ARMEABI_V7A )
   # this is *required* to use the following linker flags that routes around
+@@ -1691,3 +1706,6 @@
+ #   ANDROID_NDK_SEARCH_PATHS
+ #   ANDROID_SUPPORTED_ABIS_${ARCH}
+ #   ANDROID_SUPPORTED_NDK_VERSIONS
++SET( THREADS_PTHREAD_ARG 
++     "0"
++     CACHE STRING "Result from TRY_RUN" FORCE)
