@@ -1,6 +1,6 @@
 FROM ubuntu:14.04
-MAINTAINER Julian Cerruti <jcerruti@creativa77.com.ar>
-MAINTAINER Gary Servin <gary@creativa77.com.ar>
+MAINTAINER Gary Servin <gary@ekumenlabs.com>
+MAINTAINER Ernesto Corbellini <ecorbellini@ekumenlabs.com>
 
 # Install ROS Indigo
 RUN apt-get update && apt-get install -y wget git unzip
@@ -9,30 +9,36 @@ RUN wget https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -O - | s
 RUN apt-get update && apt-get install --no-install-recommends -y ros-indigo-ros-base python-wstool
 
 # Install Android NDK
-RUN wget http://dl.google.com/android/ndk/android-ndk-r8e-linux-x86_64.tar.bz2
-RUN tar -jxvf android-ndk-r8e-linux-x86_64.tar.bz2 -C /opt
+RUN wget https://dl.google.com/android/repository/android-ndk-r16b-linux-x86_64.zip && \
+  unzip android-ndk-r16b-linux-x86_64.zip -d /opt && \
+  rm android-ndk-r16b-linux-x86_64.zip
 
 # Set-up environment
-ENV ANDROID_NDK /opt/android-ndk-r8e
+ENV ANDROID_NDK /opt/android-ndk-r16b
 
 # Install g++ to avoid "CMAKE_CXX_COMPILER-NOTFOUND was not found." error
-RUN apt-get update && apt-get install -y g++ cmake make
+RUN apt-get install -y g++ make python-lxml
+
+# Install cmake version 3.6 required by android ndk
+RUN wget https://cmake.org/files/v3.6/cmake-3.6.3-Linux-x86_64.sh && \
+  mkdir /opt/cmake && \
+  bash cmake-3.6.3-Linux-x86_64.sh --prefix=/opt/cmake --exclude-subdir --skip-license && \
+  rm cmake-3.6.3-Linux-x86_64.sh && \
+  ln -s /opt/cmake/bin/cmake /usr/local/bin/cmake
 
 # Install Android SDK
-RUN apt-get update && apt-get install -y openjdk-6-jdk lib32z1 lib32ncurses5 lib32bz2-1.0 lib32stdc++6 ant
-RUN wget http://dl.google.com/android/android-sdk_r23.0.2-linux.tgz
-RUN tar -xvf android-sdk_r23.0.2-linux.tgz -C /opt
+RUN apt-get install -y openjdk-6-jdk lib32z1 lib32ncurses5 lib32bz2-1.0 lib32stdc++6 ant
+RUN wget http://dl.google.com/android/android-sdk_r23.0.2-linux.tgz && tar -xvf android-sdk_r23.0.2-linux.tgz -C /opt && rm android-sdk_r23.0.2-linux.tgz
+
+# Set-up environment
 ENV PATH /opt/android-sdk-linux/tools:/opt/android-sdk-linux/platform-tools:$PATH
 ENV ANDROID_HOME /opt/android-sdk-linux
 RUN (while true; do echo 'y'; sleep 2; done) | android update sdk -u -t 2,3,7,8,9,11,13,16,56,57
 
-# Install Python libraries
-RUN apt-get install python-lxml -y
-
 ENV JAVA_HOME /usr/lib/jvm/java-6-openjdk-amd64/
 
 # Use ccache
-RUN apt-get update && apt-get install -y ccache
+RUN apt-get install -y ccache
 ENV USE_CCACHE 1
 ENV NDK_CCACHE /usr/bin/ccache
 ENV CCACHE_DIR /opt/roscpp_output/ccache
