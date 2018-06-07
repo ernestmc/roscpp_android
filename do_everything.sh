@@ -109,7 +109,7 @@ if ! [ -e $prefix/android.toolchain.cmake ]; then
     cat $my_loc/files/android.toolchain.cmake.addendum >> $prefix/android.toolchain.cmake
 fi
 
-export RBA_TOOLCHAIN=$prefix/android.toolchain.cmake
+export RBA_TOOLCHAIN=$ANDROID_NDK/build/cmake/android.toolchain.cmake
 
 # Now get boost with a specialized build
 [ -d $prefix/libs/boost ] || run_cmd get_library boost $prefix/libs
@@ -289,10 +289,6 @@ if [ $use_pluginlib -ne 0 ]; then
     echo -e '\e[34mBuilding pluginlib support...\e[39m'
     echo
 
-    # Install Python libraries that are needed by the scripts
-    apt-get install python-lxml -y
-    rosdep init
-    rosdep update
     pluginlib_helper_file=pluginlib_helper.cpp
     $my_loc/files/pluginlib_helper/pluginlib_helper.py -scanroot $prefix/catkin_ws/src -cppout $my_loc/files/pluginlib_helper/$pluginlib_helper_file
     cp $my_loc/files/pluginlib_helper/$pluginlib_helper_file $prefix/catkin_ws/src/pluginlib/src/

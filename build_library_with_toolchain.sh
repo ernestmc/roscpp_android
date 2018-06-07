@@ -25,14 +25,13 @@ echo
 [ "$CMAKE_PREFIX_PATH" = "" ] && die 'could not find target basedir. Have you run build_catkin.sh and sourced setup.bash?'
 
 if [ ! -d toolchain/ ]; then
-  mkdir toolchain/
-  $ANDROID_NDK/build/tools/make-standalone-toolchain.sh --platform=android-8 --install-dir=./toolchain --ndk-dir=$ANDROID_NDK --system=linux-x86_64
+  $ANDROID_NDK/build/tools/make-standalone-toolchain.sh --arch=$ANDROID_ARCH --platform=$ANDROID_PLATFORM --stl=libc++ --install-dir=./toolchain
 fi
 
 if [ $1 == 'poco' ]; then
-    ./configure --config=Android_static --no-samples --no-tests
+    ./configure --prefix=$CMAKE_PREFIX_PATH --config=Android_static --no-samples --no-tests
 elif [ $1 == 'curl' ]; then
-    ./configure --prefix=$CMAKE_PREFIX_PATH --disable-shared --enable-static --without-ssl --host=arm-linux-androideabi --disable-tftp --disable-sspi --disable-ipv6 --disable-ldaps --disable-ldap --disable-telnet --disable-pop3 --disable-ftp --disable-imap --disable-smtp --disable-pop3 --disable-rtsp --disable-ares --without-ca-bundle --disable-warnings --disable-manual --without-nss --without-random
+    ./configure --prefix=$CMAKE_PREFIX_PATH --disable-shared --enable-static --without-ssl --target=x86_linux --host=x86-linux --disable-tftp --disable-sspi --disable-ipv6 --disable-ldaps --disable-ldap --disable-telnet --disable-pop3 --disable-ftp --disable-imap --disable-smtp --disable-pop3 --disable-rtsp --disable-ares --without-ca-bundle --disable-warnings --disable-manual --without-nss --without-random
 else
     ./configure --prefix=$CMAKE_PREFIX_PATH --enable-shared=no --enable-static
 fi
@@ -40,10 +39,11 @@ fi
 export PATH=$PATH:$2/toolchain/bin
 make -s -j$PARALLEL_JOBS -l$PARALLEL_JOBS
 
+
 if [ $1 == 'poco' ]; then
     mkdir -p $CMAKE_PREFIX_PATH/lib
     cd $CMAKE_PREFIX_PATH/lib
-    cp $prefix/lib/Android/armeabi/lib*.a ./
+    cp $prefix/lib/Android/$ANDROID_ABI/lib*.a ./
     mkdir -p ../include && cd ../include
     cp -r $prefix/Foundation/include/Poco ./
 else

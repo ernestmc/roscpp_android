@@ -51,9 +51,13 @@ cmake_build() {
 
     cd $1
     mkdir -p build && cd build
+
     cmake .. -DCMAKE_TOOLCHAIN_FILE=$RBA_TOOLCHAIN \
-        -DANDROID_TOOLCHAIN_NAME=$toolchain -DANDROID_NATIVE_API_LEVEL=$platform $host64 \
-        -DPYTHON_EXECUTABLE=$python -DCMAKE_INSTALL_PREFIX=$target -DBUILD_SHARED_LIBS=0 -DPCL_SHARED_LIBS=FALSE -DANDROID_ABI=$ANDROID_ABI
+        -DANDROID_NATIVE_API_LEVEL=$ANDROID_PLATFORM $host64 \
+        -DPYTHON_EXECUTABLE=$python -DCMAKE_INSTALL_PREFIX=$target -DPCL_SHARED_LIBS=FALSE -DANDROID_ABI=$ANDROID_ABI \
+        -DBOOST_INCLUDEDIR=$target/include -DBOOST_LIBRARYDIR=$target/lib -DBOOST_ROOT=/opt/roscpp_output/libs/boost \
+        -DCMAKE_FIND_ROOT_PATH=$target \
+        -DANDROID_STL=c++_static
     make -j$PARALLEL_JOBS -l$PARALLEL_JOBS install
 }
 
