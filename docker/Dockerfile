@@ -19,11 +19,11 @@ ENV ANDROID_NDK /opt/android-ndk-r16b
 # Install g++ to avoid "CMAKE_CXX_COMPILER-NOTFOUND was not found." error
 RUN apt-get install -y g++ make python-lxml
 
-# Install cmake version 3.6 required by android ndk
-RUN wget https://cmake.org/files/v3.6/cmake-3.6.3-Linux-x86_64.sh && \
+# Install cmake version 3.9.3 required by android ndk and boost
+RUN wget https://cmake.org/files/v3.9/cmake-3.9.3-Linux-x86_64.sh && \
   mkdir /opt/cmake && \
-  bash cmake-3.6.3-Linux-x86_64.sh --prefix=/opt/cmake --exclude-subdir --skip-license && \
-  rm cmake-3.6.3-Linux-x86_64.sh && \
+  bash cmake-3.9.3-Linux-x86_64.sh --prefix=/opt/cmake --exclude-subdir --skip-license && \
+  rm cmake-3.9.3-Linux-x86_64.sh && \
   ln -s /opt/cmake/bin/cmake /usr/local/bin/cmake
 
 # Install Android SDK
@@ -43,3 +43,6 @@ ENV USE_CCACHE 1
 ENV NDK_CCACHE /usr/bin/ccache
 ENV CCACHE_DIR /opt/roscpp_output/ccache
 ENV PATH /usr/lib/ccache:$PATH
+
+# Update ros dependencies
+RUN rosdep init && rosdep update
