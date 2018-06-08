@@ -1,6 +1,6 @@
---- libs/opencv-2.4.9/CMakeLists.txt	2014-12-15 14:45:53.515341351 -0300
-+++ libs/opencv-2.4.9/CMakeLists.txt	2014-12-15 14:08:25.951307116 -0300
-@@ -170,12 +170,12 @@
+--- libs/opencv-2.4.11/CMakeLists.txt	2018-06-07 11:52:04.367706777 -0300
++++ libs/opencv-2.4.11/CMakeLists.txt.patch	2018-06-07 15:38:41.197990514 -0300
+@@ -178,12 +178,12 @@
  # ===================================================
  OCV_OPTION(BUILD_SHARED_LIBS        "Build shared libraries (.dll/.so) instead of static ones (.lib/.a)" NOT (ANDROID OR IOS) )
  OCV_OPTION(BUILD_opencv_apps        "Build utility applications (used for example to train classifiers)" (NOT ANDROID) IF (NOT IOS) )
@@ -18,7 +18,7 @@
  OCV_OPTION(BUILD_WITH_DEBUG_INFO    "Include debug info into debug libs (not MSCV only)" ON )
  OCV_OPTION(BUILD_WITH_STATIC_CRT    "Enables use of staticaly linked CRT for staticaly linked OpenCV" ON IF MSVC )
  OCV_OPTION(BUILD_FAT_JAVA_LIB       "Create fat java wrapper containing the whole OpenCV library" ON IF NOT BUILD_SHARED_LIBS AND CMAKE_COMPILER_IS_GNUCXX )
-@@ -271,19 +271,19 @@
+@@ -284,19 +284,19 @@
      set(OpenCV_INSTALL_BINARIES_PREFIX "")
    endif()
  elseif(ANDROID)
@@ -41,7 +41,7 @@
  else()
    set(OPENCV_BIN_INSTALL_PATH "${OpenCV_INSTALL_BINARIES_PREFIX}bin")
  endif()
-@@ -293,13 +293,13 @@
+@@ -306,13 +306,13 @@
  endif()
  
  if(ANDROID)
@@ -58,11 +58,11 @@
 +  set(OPENCV_3P_LIB_INSTALL_PATH  share/OpenCV/3rdparty/${OPENCV_LIB_INSTALL_PATH})
 +  set(OPENCV_CONFIG_INSTALL_PATH  share/OpenCV)
 +  set(OPENCV_INCLUDE_INSTALL_PATH "include")
-+  set(OPENCV_SAMPLES_SRC_INSTALL_PATH    share/OpenCV/samples)
++  set(OPENCV_SAMPLES_SRC_INSTALL_PATH share/OpenCV/samples)
  else()
    set(LIBRARY_OUTPUT_PATH         "${OpenCV_BINARY_DIR}/lib")
    set(3P_LIBRARY_OUTPUT_PATH      "${OpenCV_BINARY_DIR}/3rdparty/lib${LIB_SUFFIX}")
-@@ -492,7 +492,7 @@
+@@ -512,7 +512,7 @@
  endif()
  
  if(ANDROID AND ANDROID_EXECUTABLE AND ANT_EXECUTABLE AND (ANT_VERSION VERSION_GREATER 1.7) AND (ANDROID_TOOLS_Pkg_Revision GREATER 13))
@@ -71,7 +71,7 @@
  else()
    SET(CAN_BUILD_ANDROID_PROJECTS FALSE)
  endif()
-@@ -560,17 +560,17 @@
+@@ -580,18 +580,6 @@
    add_subdirectory(samples)
  endif()
  
@@ -86,48 +86,28 @@
 -if (ANDROID)
 -  add_subdirectory(platforms/android/libinfo)
 -endif()
-+#if(ANDROID)
-+#  add_subdirectory(platforms/android/service)
-+#endif()
-+
-+#if(BUILD_ANDROID_PACKAGE)
-+#  add_subdirectory(platforms/android/package)
-+#endif()
-+
-+#if (ANDROID)
-+#  add_subdirectory(platforms/android/libinfo)
-+#endif()
- 
+-
  # ----------------------------------------------------------------------------
  # Finalization: generate configuration-based files
---- libs/opencv-2.4.9/cmake/templates/OpenCVConfig.cmake.in	2014-12-15 13:34:42.751276299 -0300
-+++ libs/opencv-2.4.9/cmake/templates/OpenCVConfig.cmake.in	2014-12-15 13:35:00.171276564 -0300
-@@ -73,7 +73,7 @@
+ # ----------------------------------------------------------------------------
+--- libs/opencv-2.4.11/cmake/templates/OpenCVConfig.cmake.in	2018-06-07 11:52:04.371706725 -0300
++++ libs/opencv-2.4.11/cmake/templates/OpenCVConfig.cmake.in.patch	2018-06-07 15:04:50.226431566 -0300
+@@ -99,7 +99,7 @@
  
- if(NOT WIN32 OR OpenCV_ANDROID_NATIVE_API_LEVEL GREATER 0)
-   if(OpenCV_ANDROID_NATIVE_API_LEVEL GREATER 0)
+ if(NOT WIN32 OR ANDROID)
+   if(ANDROID)
 -    set(OpenCV_INSTALL_PATH "${OpenCV_CONFIG_PATH}/../../..")
 +    set(OpenCV_INSTALL_PATH "${OpenCV_CONFIG_PATH}/../..")
    else()
      set(OpenCV_INSTALL_PATH "${OpenCV_CONFIG_PATH}/../..")
    endif()
---- libs/opencv-2.4.9/cmake/OpenCVGenAndroidMK.cmake	2015-01-13 13:14:59.851590357 -0300
-+++ libs/opencv-2.4.9/cmake/OpenCVGenAndroidMK.cmake	2015-01-13 13:09:19.947583975 -0300
-@@ -1,3 +1,17 @@
-+macro( ANDROID_GET_ABI_RAWNAME TOOLCHAIN_FLAG VAR )
-+ if( "${TOOLCHAIN_FLAG}" STREQUAL "ARMEABI" )
-+  set( ${VAR} "armeabi" )
-+ elseif( "${TOOLCHAIN_FLAG}" STREQUAL "ARMEABI_V7A" )
-+  set( ${VAR} "armeabi-v7a" )
-+ elseif( "${TOOLCHAIN_FLAG}" STREQUAL "X86" )
-+  set( ${VAR} "x86" )
-+ elseif( "${TOOLCHAIN_FLAG}" STREQUAL "MIPS" )
-+  set( ${VAR} "mips" )
-+ else()
-+  set( ${VAR} "unknown" )
-+ endif()
-+endmacro()
-+
- if(ANDROID)
-   # --------------------------------------------------------------------------------------------
-   #  Installation for Android ndk-build makefile:  OpenCV.mk
+--- libs/opencv-2.4.11/modules/androidcamera/src/camera_activity.cpp	2018-06-05 16:00:59.615631202 -0300
++++ libs/opencv-2.4.11/modules/androidcamera/src/camera_activity.cpp	2018-06-05 16:01:42.419195797 -0300
+@@ -7,6 +7,7 @@
+ #include <string>
+ #include <vector>
+ #include <algorithm>
++#include <functional>
+ #include <opencv2/core/version.hpp>
+ #include "camera_activity.hpp"
+ #include "camera_wrapper.h"
