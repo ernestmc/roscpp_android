@@ -115,7 +115,7 @@ export RBA_TOOLCHAIN=$ANDROID_NDK/build/cmake/android.toolchain.cmake
 [ -d $prefix/libs/boost ] || run_cmd get_library boost $prefix/libs
 [ -d $prefix/libs/bzip2 ] || run_cmd get_library bzip2 $prefix/libs
 [ -d $prefix/libs/uuid ] || run_cmd get_library uuid $prefix/libs
-[ -d $prefix/libs/poco-1.6.1 ] || run_cmd get_library poco $prefix/libs
+[ -d $prefix/libs/poco-1.8.1 ] || run_cmd get_library poco $prefix/libs
 [ -d $prefix/libs/tinyxml ] || run_cmd get_library tinyxml $prefix/libs
 [ -d $prefix/libs/catkin ] || run_cmd get_library catkin $prefix/libs
 [ -d $prefix/libs/console_bridge ] || run_cmd get_library console_bridge $prefix/libs
@@ -316,7 +316,7 @@ echo
 [ -f $prefix/target/lib/libbz2.a ] || run_cmd build_library bzip2 $prefix/libs/bzip2
 [ -f $prefix/target/lib/libuuid.a ] || run_cmd build_library uuid $prefix/libs/uuid
 [ -f $prefix/target/lib/libboost_system.a ] || run_cmd copy_boost $prefix/libs/boost
-[ -f $prefix/target/lib/libPocoFoundation.a ] || run_cmd build_library_with_toolchain poco $prefix/libs/poco-1.6.1
+[ -f $prefix/target/lib/libPocoFoundation.a ] || run_cmd build_library_with_toolchain poco $prefix/libs/poco-1.8.1
 [ -f $prefix/target/lib/libtinyxml.a ] || run_cmd build_library tinyxml $prefix/libs/tinyxml
 [ -f $prefix/target/lib/libconsole_bridge.a ] || run_cmd build_library console_bridge $prefix/libs/console_bridge
 [ -f $prefix/target/lib/liblz4.a ] || run_cmd build_library lz4 $prefix/libs/lz4-r124/cmake_unofficial

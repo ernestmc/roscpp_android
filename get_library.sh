@@ -84,7 +84,7 @@ elif [ $1 == 'pcrecpp' ]; then
     URL=https://github.com/brianb/pcre-7.8.git
     COMP='git'
 elif [ $1 == 'poco' ]; then
-    URL=http://pocoproject.org/releases/poco-1.6.1/poco-1.6.1.tar.gz
+    URL=http://pocoproject.org/releases/poco-1.8.1/poco-1.8.1.tar.gz
     COMP='gz'
 elif [ $1 == 'qhull' ]; then
     URL=http://www.qhull.org/download/qhull-2012.1-src.tgz
