@@ -69,7 +69,7 @@ elif [ $1 == 'lz4' ]; then
     URL=https://github.com/Cyan4973/lz4/archive/r124.tar.gz
     COMP='gz'
 elif [ $1 == 'octomap' ]; then
-    URL=https://github.com/OctoMap/octomap/archive/v1.6.8.tar.gz
+    URL=https://github.com/OctoMap/octomap/archive/v1.6.9.tar.gz
     COMP='gz'
 elif [ $1 == 'opencv' ]; then
     URL=https://github.com/Itseez/opencv/archive/2.4.9.tar.gz

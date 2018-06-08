@@ -1,0 +1,12 @@
+--- libs/octomap-1.6.9/CMakeLists.txt	2018-06-05 14:48:59.860700341 -0300
++++ libs/octomap-1.6.9/CMakeLists.txt	2018-06-05 14:50:11.839538623 -0300
+@@ -3,8 +3,8 @@
+ 
+ ENABLE_TESTING()  # enable CTest environment of subprojects
+ 
+-option(BUILD_OCTOVIS_SUBPROJECT "Build targets from subproject octovis" ON)
+-option(BUILD_DYNAMICETD3D_SUBPROJECT  "Build targets from subproject dynamicEDT3D" ON)
++option(BUILD_OCTOVIS_SUBPROJECT "Build targets from subproject octovis" OFF)
++option(BUILD_DYNAMICETD3D_SUBPROJECT  "Build targets from subproject dynamicEDT3D" OFF)
+ 
+ ADD_SUBDIRECTORY( octomap )
