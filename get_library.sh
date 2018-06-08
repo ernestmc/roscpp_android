@@ -26,7 +26,7 @@ elif [ $1 == 'bfl' ]; then
     URL=https://github.com/ros-gbp/bfl-release/archive/release/indigo/bfl/0.7.0-6.tar.gz
     COMP='gz'
 elif [ $1 == 'boost' ]; then
-    URL=https://github.com/ekumenlabs/Boost-for-Android.git
+    URL=https://github.com/moritz-wundke/Boost-for-Android.git
     COMP='git'
 elif [ $1 == 'bzip2' ]; then
     URL=https://github.com/osrf/bzip2_cmake.git
@@ -116,13 +116,17 @@ if [ $COMP == 'gz' ]; then
     download_gz $URL $prefix
 elif [ $COMP == 'bz2' ]; then
     download_bz2 $URL $prefix
-elif [ $COMP == 'git' ];then
-    git clone $URL $prefix/$1
+elif [ $COMP == 'git' ]; then
+    if [ -z $BRANCH ]; then
+        git clone $URL $prefix/$1
+    else
+        git clone -b $BRANCH $URL $prefix/$1
+    fi
 fi
 
 if [ $1 == 'boost' ]; then
     cd $prefix/boost
-    ./build-android.sh $ANDROID_NDK --boost=1.53.0
+    ./build-android.sh $ANDROID_NDK --boost=1.65.1 --arch=$ANDROID_ARCH
 elif [ -v HASH ]; then
     cd $prefix/$1
     git checkout $HASH
