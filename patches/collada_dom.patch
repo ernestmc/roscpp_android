@@ -9,3 +9,15 @@
  target_link_libraries(collada-dom ${COLLADA_LIBS})
  set_target_properties(collada-dom PROPERTIES
    COMPILE_FLAGS "${COLLADA_COMPILE_FLAGS}"
+
+--- libs/collada-dom-2.4.0/CMakeLists.txt	2012-06-01 08:52:21.000000000 -0300
++++ libs/collada-dom-2.4.0/CMakeLists.txt	2018-06-05 11:43:29.619758845 -0300
+@@ -109,6 +109,8 @@
+ include(CheckTypeSize)
+ find_package(PkgConfig)
+ 
++set(CMAKE_CXX_FLAGS "-std=c++03")
++
+ if( CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX )
+   add_definitions("-fno-strict-aliasing -Wall")
+ endif()
