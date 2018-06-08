@@ -87,7 +87,7 @@ elif [ $1 == 'poco' ]; then
     URL=http://pocoproject.org/releases/poco-1.8.1/poco-1.8.1.tar.gz
     COMP='gz'
 elif [ $1 == 'qhull' ]; then
-    URL=http://www.qhull.org/download/qhull-2012.1-src.tgz
+    URL=http://www.qhull.org/download/qhull-2015-src-7.2.0.tgz
     COMP='gz'
 elif [ $1 == 'tinyxml' ]; then
     URL=https://github.com/chadrockey/tinyxml_cmake
