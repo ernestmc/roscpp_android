@@ -1,5 +1,14 @@
---- libs/pcrecpp/CMakeLists.txt
-+++ libs/pcrecpp/CMakeLists.txt
+--- libs/pcre-7.9/CMakeLists.txt
++++ libs/pcre-7.9/CMakeLists.txt
+@@ -115,7 +115,7 @@
+ 
+ OPTION(PCRE_SHOW_REPORT    "Show the final configuration report" ON)
+ OPTION(PCRE_BUILD_PCREGREP "Build pcregrep" ON)
+-OPTION(PCRE_BUILD_TESTS    "Build the tests" ON)
++OPTION(PCRE_BUILD_TESTS    "Build the tests" OFF)
+ 
+ IF (PCRE_BUILD_TESTS)
+   IF (NOT PCRE_BUILD_PCREGREP)
 @@ -486,6 +486,12 @@ INSTALL(FILES ${man1} DESTINATION man/man1)
  INSTALL(FILES ${man3} DESTINATION man/man3)
  INSTALL(FILES ${html} DESTINATION share/doc/pcre/html)
@@ -14,7 +23,7 @@
  IF(BUILD_SHARED_LIBS)
    SET(BUILD_STATIC_LIBS OFF)
 --- /dev/null
-+++ libs/pcrecpp/libpcrecpp-config.cmake
++++ libs/pcre-7.9/libpcrecpp-config.cmake
 @@ -0,0 +1,26 @@
 +if (libpcrecpp_CONFIG_INCLUDED)
 +  return()
@@ -43,7 +52,7 @@
 +  list(APPEND libpcrecpp_LIBRARIES ${${dep}_LIBRARIES})
 +endforeach()
 --- /dev/null
-+++ libs/pcrecpp/libpcrecpp-config.cmake.in
++++ libs/pcre-7.9/libpcrecpp-config.cmake.in
 @@ -0,0 +1,26 @@
 +if (@PKG_NAME@_CONFIG_INCLUDED)
 +  return()
