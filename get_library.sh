@@ -78,7 +78,8 @@ elif [ $1 == 'orocos_kdl' ]; then
     URL=https://github.com/smits/orocos-kdl-release/archive/release/indigo/orocos_kdl/1.3.0-0.tar.gz
     COMP='gz'
 elif [ $1 == 'pcl' ]; then
-    URL=https://github.com/chadrockey/pcl.git
+    URL=https://github.com/PointCloudLibrary/pcl.git
+    BRANCH='pcl-1.8.0'
     COMP='git'
 elif [ $1 == 'pcrecpp' ]; then
     URL=https://github.com/brianb/pcre-7.8.git

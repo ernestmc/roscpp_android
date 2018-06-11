@@ -203,6 +203,9 @@ if [[ $skip -ne 1 ]] ; then
 
     # Patch octomap - No doxygen
     apply_patch /opt/roscpp_android/patches/octomap.patch
+    
+    # Patch pcl - No SSE, opengl, c++03 flag
+    apply_patch /opt/roscpp_android/patches/pcl.patch
 
 
     ## ROS patches
