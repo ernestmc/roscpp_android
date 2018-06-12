@@ -12,7 +12,8 @@ export ANDROID_ABI=x86
 export ANDROID_PLATFORM=android-14
 
 #toolchain=arm-linux-androideabi-$gcc_version
-toolchain=x86-$gcc_version
+#toolchain=x86-$gcc_version
+toolchain=llvm
 
 PYTHONPATH=/opt/ros/indigo/lib/python2.7/dist-packages:$PYTHONPATH
 # Enable this value for debug build
