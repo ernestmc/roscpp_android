@@ -117,6 +117,7 @@ export RBA_TOOLCHAIN=$ANDROID_NDK/build/cmake/android.toolchain.cmake
 [ -d $prefix/libs/uuid ] || run_cmd get_library uuid $prefix/libs
 [ -d $prefix/libs/poco-1.8.1 ] || run_cmd get_library poco $prefix/libs
 [ -d $prefix/libs/tinyxml ] || run_cmd get_library tinyxml $prefix/libs
+[ -d $prefix/libs/tinyxml2 ] || run_cmd get_library tinyxml2 $prefix/libs
 [ -d $prefix/libs/catkin ] || run_cmd get_library catkin $prefix/libs
 [ -d $prefix/libs/console_bridge ] || run_cmd get_library console_bridge $prefix/libs
 [ -d $prefix/libs/lz4-r124 ] || run_cmd get_library lz4 $prefix/libs
@@ -273,6 +274,8 @@ if [[ $skip -ne 1 ]] ; then
     # TODO: PR merged: https://github.com/ros-planning/navigation/pull/359
     # Wait for next release to remove (current 1.12.4)
     apply_patch /opt/roscpp_android/patches/global_planner.patch
+    # Rospack: remove Python dependency
+    apply_patch /opt/roscpp_android/patches/rospack.patch
 
     # Plugin specific patches
     if [ $use_pluginlib -ne 0 ]; then
@@ -324,6 +327,7 @@ echo
 [ -f $prefix/target/lib/libboost_system.a ] || run_cmd copy_boost $prefix/libs/boost
 [ -f $prefix/target/lib/libPocoFoundation.a ] || run_cmd build_library_with_toolchain poco $prefix/libs/poco-1.8.1
 [ -f $prefix/target/lib/libtinyxml.a ] || run_cmd build_library tinyxml $prefix/libs/tinyxml
+[ -f $prefix/target/lib/libtinyxml2.a ] || run_cmd build_library tinyxml2 $prefix/libs/tinyxml2
 [ -f $prefix/target/lib/libconsole_bridge.a ] || run_cmd build_library console_bridge $prefix/libs/console_bridge
 [ -f $prefix/target/lib/liblz4.a ] || run_cmd build_library lz4 $prefix/libs/lz4-r124/cmake_unofficial
 [ -f $prefix/target/lib/libcurl.a ] || run_cmd build_library_with_toolchain curl $prefix/libs/curl-7.39.0
