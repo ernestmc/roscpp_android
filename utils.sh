@@ -57,6 +57,7 @@ cmake_build() {
         -DPYTHON_EXECUTABLE=$python -DCMAKE_INSTALL_PREFIX=$target -DPCL_SHARED_LIBS=FALSE -DANDROID_ABI=$ANDROID_ABI \
         -DBOOST_INCLUDEDIR=$target/include -DBOOST_LIBRARYDIR=$target/lib -DBOOST_ROOT=/opt/roscpp_output/libs/boost \
         -DCMAKE_FIND_ROOT_PATH=$target \
+        -DCMAKE_CXX_FLAGS="-I/opt/android-ndk-r16b/sysroot/usr/include/i686-linux-android/" \
         -DANDROID_STL=c++_static
     make -j$PARALLEL_JOBS -l$PARALLEL_JOBS install
 }
