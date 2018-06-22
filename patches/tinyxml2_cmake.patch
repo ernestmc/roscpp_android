@@ -1,0 +1,12 @@
+--- libs/tinyxml2/CMakeLists.txt
++++ libs/tinyxml2/CMakeLists.txt
+@@ -170,7 +170,8 @@ file(WRITE
+ 
+ install(FILES
+         ${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}Config.cmake
+-        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${CMAKE_PROJECT_NAME})
++        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${CMAKE_PROJECT_NAME}
++	RENAME tinyxml2-config.cmake)
+ 
+ install(EXPORT ${CMAKE_PROJECT_NAME}Targets
+         DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/${CMAKE_PROJECT_NAME})

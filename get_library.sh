@@ -94,6 +94,10 @@ elif [ $1 == 'qhull' ]; then
 elif [ $1 == 'tinyxml' ]; then
     URL=https://github.com/chadrockey/tinyxml_cmake
     COMP='git'
+elif [ $1 == 'tinyxml2' ]; then
+    URL=https://github.com/leethomason/tinyxml2.git
+    BRANCH='6.2.0'
+    COMP='git'
 elif [ $1 == 'urdfdom_headers' ]; then
     URL=https://github.com/ros/urdfdom_headers.git
     COMP='git'
