@@ -158,6 +158,9 @@ if [[ $skip -ne 1 ]] ; then
     echo -e '\e[34mApplying patches.\e[39m'
     echo
 
+    # Patch tinyxml2 - cmake module needs a different name
+    apply_patch /opt/roscpp_android/patches/tinyxml2_cmake.patch
+
     # patch CMakeLists.txt for lz4 library - Build as a library
     apply_patch /opt/roscpp_android/patches/lz4.patch
 
